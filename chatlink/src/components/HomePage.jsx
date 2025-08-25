@@ -6,7 +6,7 @@ import { IoIosKeypad } from "react-icons/io";
 // useNavigate hook for programmatic navigation
 import { useNavigate } from 'react-router-dom';
 // Custom Tailwind-based styles file
-import styles from '../assets/dummyStyles';
+import styles from '../assets/dummystyles';
 
 const HomePage = () => {
   // State to store the room code entered by the user

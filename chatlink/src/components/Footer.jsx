@@ -4,7 +4,7 @@ import { FaInstagram, FaLinkedinIn, FaDiscord } from 'react-icons/fa'
 // Importing logo image
 import Logo from '../assets/logo.png'
 // Importing custom styles (tailwind classnames stored in dummyStyles.js)
-import styles from '../assets/dummyStyles'
+import styles from '../assets/dummystyles'
 
 // Functional Footer component
 const Footer = () => (

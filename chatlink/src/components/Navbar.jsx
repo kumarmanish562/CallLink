@@ -7,7 +7,7 @@ import { MdArrowForward } from 'react-icons/md';
 // React Router's Link for navigation
 import { Link } from 'react-router-dom';
 // Tailwind-based custom styles
-import styles from '../assets/dummyStyles';
+import styles from '../assets/dummystyles';
 
 const Navbar = () => {
   return (
