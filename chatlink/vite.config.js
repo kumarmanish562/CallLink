@@ -4,6 +4,7 @@ import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/ChatLink/',   // 👈 IMPORTANT for GitHub Pages repo name
-  plugins: [react(), tailwindcss()],
+  plugins: [react(),
+    tailwindcss(),
+  ],
 })
