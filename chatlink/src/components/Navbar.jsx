@@ -1,7 +1,7 @@
 // src/components/Navbar.jsx
 import React from 'react';
 // Importing logo image
-import Logo from '../assets/Logo.png';
+import Logo from '../assets/logo.png';
 // Importing arrow icon
 import { MdArrowForward } from 'react-icons/md';
 // React Router's Link for navigation
