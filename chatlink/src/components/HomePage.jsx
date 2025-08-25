@@ -1,21 +1,17 @@
 import React, {  useCallback, useState } from 'react'
-import styles from '../assets/dummystyles'
 import { FaRocket, FaVideo } from "react-icons/fa";
 import {IoIosKeypad} from "react-icons/io";
 import { useNavigate } from 'react-router-dom';
+import styles from '../assets/dummyStyles'
 
 const HomePage = () => {
-
   const[value, setValue] = useState('');
   const navigate = useNavigate();
-
-
   const handleJoinRoom = useCallback(() => {
     if (value.trim()) {
       navigate(`/room/${value}`);
     }
-  });
-
+  }, [value, navigate]);
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       handleJoinRoom()  
