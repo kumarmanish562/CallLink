@@ -1,43 +1,62 @@
-import React from 'react'
-import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useRef } from "react";
+// Import Zego UIKit Prebuilt for video conferencing
+import { ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt";
 
+// Functional component for the video conference room
 const Room = () => {
+  // Reference to the DOM element where Zego video UI will be mounted
+  const meetingRef = useRef(null);
 
-  const { roomId } = useParams();
+  useEffect(() => {
+    // Read ZegoCloud App ID & Server Secret from environment variables
+    const appID = Number(import.meta.env.VITE_ZEGO_APP_ID);
+    const serverSecret = import.meta.env.VITE_ZEGO_SERVER_SECRET;
 
-  const myMeeting = async(element) => {
-    const appID = 1232015303;
-      const serverSecret = "99172c256f453265735a1ebb685287bd";
-      const kitToken =  ZegoUIKitPrebuilt.generateKitTokenForTest(
-        appID, 
-        serverSecret, 
-        roomId,
-        Date.now().toString(),
-        'HDS')
+    // If credentials are missing, log an error and stop execution
+    if (!appID || !serverSecret) {
+      console.error("❌ Missing ZegoCloud credentials. Check your .env file.");
+      return;
+    }
 
-        const zc = ZegoUIKitPrebuilt.create(kitToken);
-        zc.joinRoom({
-          container: element,
-          sharedLinks: [
-            {
-              name: 'Copy Link',
-              url: `http://localhost:5173/${roomId}`
-            }
-          ],
-          scenario: {
-            mode: ZegoUIKitPrebuilt.OneONoneCall,
-          },
-          showScreenSharingButton: true,
-        });
+    // ========== ZEGOCLOUD SETUP ==========
 
-  }
-  return (
-   <div style={{ height: '100vh' }}>
-    <div ref={myMeeting} style={{ width: '100%', height: '100%' }}></div>
+    // Room ID - could be dynamic based on URL or user input
+    const roomID = "my-room-id";
+    // Random user ID
+    const userID = String(Math.floor(Math.random() * 10000));
+    // Display name for the user
+    const userName = "user_" + userID;
 
-   </div>
-  )
-}
+    // Generate a temporary Kit Token for testing
+    const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
+      appID,         // Your App ID
+      serverSecret,  // Your Server Secret
+      roomID,        // Room ID
+      userID,        // User ID
+      userName       // User Name
+    );
 
-export default Room
+    // Create a Zego instance using the kit token
+    const zp = ZegoUIKitPrebuilt.create(kitToken);
+
+    // Join the video conference room
+    zp.joinRoom({
+      container: meetingRef.current, // Mount UI inside this DOM node
+      sharedLinks: [
+        {
+          name: "Copy Link", // Label for the link
+          url: `${window.location.origin}/room/${roomID}`, // Shareable room URL
+        },
+      ],
+      scenario: {
+        mode: ZegoUIKitPrebuilt.VideoConference, // Set mode to video conference
+      },
+    });
+  }, []); // Empty dependency array = run only once on mount
+
+  // Container for Zego UIKit - full height and width
+  return <div ref={meetingRef} style={{ width: "100%", height: "100vh" }} />;
+};
+
+// Export component
+export default Room;
